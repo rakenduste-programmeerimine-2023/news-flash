@@ -1,57 +1,37 @@
-import DeployButton from '../components/DeployButton'
-import AuthButton from '../components/AuthButton'
-import { createClient } from '@/utils/supabase/server'
-import ConnectSupabaseSteps from '@/components/ConnectSupabaseSteps'
-import SignUpUserSteps from '@/components/SignUpUserSteps'
-import Header from '@/components/Header'
-import { cookies } from 'next/headers'
+import Link from 'next/link'
+import styles from '../components/styles/Home.module.css'
 
-export default async function Index() {
-  const cookieStore = cookies()
-
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient(cookieStore)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
-  const isSupabaseConnected = canInitSupabaseClient()
-
+export default function Home() {
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
-        </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
+    <main>
+      <div>
+        <h1 className="newsFlash">NewsFlash</h1>
       </div>
+      <nav>
 
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{' '}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
-    </div>
+        <Link href="/Majandus">Majandus</Link>
+        <Link href="/Sport">Sport</Link>
+        <Link href="/Maailm">Maailm</Link>
+        <Link href="/Eesti">Eesti</Link>
+        <Link href="/Kultuur">Kultuur</Link>
+        <Link className="last-child" href="/login">LOGI SISSE</Link>
+
+      </nav>
+      <div className="search-container">
+        <label htmlFor="searchbar">Otsi: </label>
+        <input id="searchbar" type="text" placeholder=" Märksõna"></input>
+      </div>
+      <div className="checkbox-container">
+        <input type="checkbox" id="date_checkboxDay" name="date_checkboxDay" value="day" ></input>
+        <label htmlFor="date_checkboxDay">Tänased uudised</label>
+        <input type="checkbox" id="date_checkboxWeek" name="date_checkboxWeek" value="week" ></input>
+        <label htmlFor="date_checkboxWeek">Viimase 7 päeva uudised</label>
+        <div id="timeframe">
+
+          <input id="searchbarFrom" type="text" placeholder="Alates"></input>
+          <input id="searchbarUntil" type="text" placeholder="Kuni"></input>
+        </div>
+      </div>
+    </main>
   )
 }
