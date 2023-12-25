@@ -22,16 +22,19 @@ export default function Home() {
         <input id="searchbar" type="text" placeholder=" Märksõna"></input>
       </div>
       <div className="checkbox-container">
-        <input type="checkbox" id="date_checkboxDay" name="date_checkboxDay" value="day" ></input>
-        <label htmlFor="date_checkboxDay">Tänased uudised</label>
-        <input type="checkbox" id="date_checkboxWeek" name="date_checkboxWeek" value="week" ></input>
+      <label htmlFor="date_checkboxDay">Tänased uudised</label>
+        <input type="checkbox" className="checkboxes" id="date_checkboxDay" name="date_checkboxDay" value="day" ></input>
         <label htmlFor="date_checkboxWeek">Viimase 7 päeva uudised</label>
+        <input type="checkbox" className="checkboxes" id="date_checkboxWeek" name="date_checkboxWeek" value="week" ></input>
+       
         <div id="timeframe">
 
-          <input id="searchbarFrom" type="text" placeholder="Alates"></input>
-          <input id="searchbarUntil" type="text" placeholder="Kuni"></input>
+          <input className="searchByDate" id="searchbarFrom" type="text" placeholder="Alates"></input>
+         
+          <input className="searchByDate" id="searchbarUntil" type="text" placeholder="Kuni"></input>
         </div>
       </div>
+      <div className="latestNews">Viimased Uudised:</div>
     </main>
   )
 }

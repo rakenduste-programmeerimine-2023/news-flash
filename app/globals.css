@@ -100,10 +100,12 @@ nav a:hover {
   height: 20vh;
   background-color: #d6d6d6;
   font-size: 1em;
+  
 }
 #date_checkboxDay {
   margin-top: 3vh;
   cursor: pointer;
+  
 }
 
 #date_checkboxWeek {
@@ -113,4 +115,149 @@ nav a:hover {
 #timeframe {
   margin-top: 2vh;
   display: flex;
+ 
 }
+.searchByDate {
+  background-color:#6e6e6e;
+  margin: 1vw;
+  width: 7vw;
+
+}
+
+.latestNews{
+  position: relative;
+  top: 15vh;
+  left: 8vw;
+  cursor: pointer;
+  font-size: 1.2vw;
+  height: 80vh;
+  width: 60vw;
+  background-color: #d6d6d6;
+}
+
+.welcome{
+  background-color: transparent;
+  color: black;
+}
+
+.welcome:hover{
+  background-color: transparent;
+}
+
+.user-container {
+  position: absolute;
+  display: flex;
+  top: 20vh;
+  left: 4vw;
+  width: 18vw;
+  height: 5vh;
+  align-items: center;
+  font-size: larger;
+}
+
+.email-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 26.5vh;
+  left: 4vw;
+  width: 18vw;
+  height: 5vh;
+  font-size: 1em;
+}
+
+#email{
+  background-color: #d6d6d6;
+}
+
+.firstname-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 33vh;
+  left: 4vw;
+  width: 18vw;
+  height: 5vh;
+  font-size: 1em;
+}
+
+#firstname{
+  background-color: #d6d6d6;
+}
+
+.lastname-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 39.5vh;
+  left: 4vw;
+  width: 18vw;
+  height: 5vh;
+  font-size: 1em;
+}
+
+#lastname{
+  background-color: #d6d6d6;
+}
+
+.savedNews{
+  position: relative;
+  top: 15vh;
+  left: 8vw;
+  cursor: pointer;
+  font-size: 1.2vw;
+  height: 50vh;
+  width: 60vw;
+  background-color: #d6d6d6;
+}
+
+.myComments{
+  position: relative;
+  top: 20vh;
+  left: 8vw;
+  cursor: pointer;
+  font-size: 1.2vw;
+  height: 25vh;
+  width: 60vw;
+  background-color: #d6d6d6;
+}
+
+#change_password{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 65.5vh;
+  left: 4vw;
+  width: 10vw;
+  height: 5vh;
+  font-size: 1em;
+  background-color: #d6d6d6;
+  align-items: center;
+  font-size: larger;
+  justify-content: center;
+}
+
+#change_password:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+#delete_user{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 75.5vh;
+  left: 4vw;
+  width: 10vw;
+  height: 5vh;
+  font-size: 1em;
+  background-color: #d6d6d6;
+  align-items: center;
+  font-size: larger;
+  justify-content: center;
+}
+
+
+
+
+
