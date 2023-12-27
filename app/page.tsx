@@ -1,7 +1,11 @@
 import Link from 'next/link'
 import styles from '../components/styles/Home.module.css'
 
-export default function Home() {
+export default async function Home() {
+  const newsdataApiKey = process.env.NEWSDATA_API_KEY!
+  const fNews = await fetch(`https://newsdata.io/api/1/news?country=ee&apikey=${newsdataApiKey}`)
+  const pNews = await fNews.json()
+
   return (
     <main>
       <div>
@@ -34,7 +38,12 @@ export default function Home() {
           <input className="searchByDate" id="searchbarUntil" type="text" placeholder="Kuni"></input>
         </div>
       </div>
-      <div className="latestNews">Viimased Uudised:</div>
+      <div className="latestNews">
+        <h1>Viimased Uudised:</h1>
+        <h2>{pNews.results[0].title}</h2>
+        <p>{pNews.results[0].description}</p>
+        <p>{pNews.results[0].content}</p>
+      </div>
     </main>
   )
 }
