@@ -1,5 +1,4 @@
-import Link from "next/link"
-import styles from "../components/styles/Home.module.css"
+import HomeHeader from '@/components/HomeHeader'
 
 function NewsDisplay(props: { news: any }) {
   const newsInList = props.news.results.map(newsEntry => {
@@ -40,22 +39,8 @@ export default async function Home() {
 
   return (
     <main>
-      <div>
-        <h1 className="newsFlash">NewsFlash</h1>
-      </div>
-      <nav>
-        <Link href="/Majandus">Majandus</Link>
-        <Link href="/Sport">Sport</Link>
-        <Link href="/Maailm">Maailm</Link>
-        <Link href="/Eesti">Eesti</Link>
-        <Link href="/Kultuur">Kultuur</Link>
-        <Link
-          className="last-child"
-          href="/login"
-        >
-          LOGI SISSE
-        </Link>
-      </nav>
+      <HomeHeader />
+
       <div className="search-container">
         <label htmlFor="searchbar">Otsi: </label>
         <input
