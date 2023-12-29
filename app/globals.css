@@ -100,12 +100,10 @@ nav a:hover {
   height: 20vh;
   background-color: #d6d6d6;
   font-size: 1em;
-  
 }
 #date_checkboxDay {
   margin-top: 3vh;
   cursor: pointer;
-  
 }
 
 #date_checkboxWeek {
@@ -115,16 +113,14 @@ nav a:hover {
 #timeframe {
   margin-top: 2vh;
   display: flex;
- 
 }
 .searchByDate {
-  background-color:#6e6e6e;
+  background-color: #6e6e6e;
   margin: 1vw;
   width: 7vw;
-
 }
 
-.latestNews{
+.latestNews {
   position: relative;
   top: 15vh;
   left: 8vw;
@@ -132,15 +128,14 @@ nav a:hover {
   font-size: 1.2vw;
   height: 80vh;
   width: 60vw;
-  background-color: #d6d6d6;
 }
 
-.welcome{
+.welcome {
   background-color: transparent;
   color: black;
 }
 
-.welcome:hover{
+.welcome:hover {
   background-color: transparent;
 }
 
@@ -166,7 +161,7 @@ nav a:hover {
   font-size: 1em;
 }
 
-#email{
+#email {
   background-color: #d6d6d6;
 }
 
@@ -181,7 +176,7 @@ nav a:hover {
   font-size: 1em;
 }
 
-#firstname{
+#firstname {
   background-color: #d6d6d6;
 }
 
@@ -196,11 +191,11 @@ nav a:hover {
   font-size: 1em;
 }
 
-#lastname{
+#lastname {
   background-color: #d6d6d6;
 }
 
-.savedNews{
+.savedNews {
   position: relative;
   top: 15vh;
   left: 8vw;
@@ -211,7 +206,7 @@ nav a:hover {
   background-color: #d6d6d6;
 }
 
-.myComments{
+.myComments {
   position: relative;
   top: 20vh;
   left: 8vw;
@@ -222,7 +217,7 @@ nav a:hover {
   background-color: #d6d6d6;
 }
 
-#change_password{
+#change_password {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -242,7 +237,7 @@ nav a:hover {
   color: black;
 }
 
-#delete_user{
+#delete_user {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -256,8 +251,3 @@ nav a:hover {
   font-size: larger;
   justify-content: center;
 }
-
-
-
-
-
