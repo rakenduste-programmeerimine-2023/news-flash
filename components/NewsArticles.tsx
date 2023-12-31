@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import NewsDisplay from "./NewsDisplay"
 
 export default async function NewsArticles() {
@@ -8,7 +9,8 @@ export default async function NewsArticles() {
   */
   const newsdataApiKey = process.env.NEWSDATA_API_KEY!
   const fNews = await fetch(
-    `https://newsdata.io/api/1/news?country=ee&apikey=${newsdataApiKey}`
+    //`https://newsdata.io/api/1/news?country=ee&apikey=${newsdataApiKey}`
+    `https://newsdata.io/api/1/news?apikey=${newsdataApiKey}&language=et`
   )
   const pNews = await fNews.json()
 
