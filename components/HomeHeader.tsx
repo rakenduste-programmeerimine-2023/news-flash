@@ -4,7 +4,7 @@ function NavLink(props: { link: string }) {
   return (
     <Link
       className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
-      href={props.link.toLowerCase()}
+      href={props.link.charAt(0).toUpperCase() + props.link.slice(1).toLowerCase()}
     >
       {props.link}
     </Link>
@@ -30,8 +30,8 @@ function NavigationBar() {
       <NavLink link="Majandus" />
       <NavLink link="Sport" />
       <NavLink link="Maailm" />
-      <NavLink link="Eesti" />
-      <NavLink link="Kultuur" />
+      <NavLink link="Poliitika" />
+      <NavLink link="Teadus" />
     </div>
   )
 }
