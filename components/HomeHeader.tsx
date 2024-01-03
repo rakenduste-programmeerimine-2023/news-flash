@@ -4,7 +4,7 @@ function NavLink(props: { link: string }) {
   return (
     <Link
       className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
-      href={props.link}
+      href={props.link.toLowerCase()}
     >
       {props.link}
     </Link>
@@ -36,9 +36,9 @@ function NavigationBar() {
   )
 }
 
-export default function HomeHeader(props) {
+export default function HomeHeader({ user = undefined }) {
   const loginObject =
-    props.user === undefined ? (
+    user === undefined ? (
       <Link
         className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
         href="/login"
@@ -50,7 +50,7 @@ export default function HomeHeader(props) {
         className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
         href="/my_profile"
       >
-        Tere tulemast, {props.user}
+        Tere tulemast, {user}
       </Link>
     )
 

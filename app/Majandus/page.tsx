@@ -1,15 +1,18 @@
 import HomeHeader from "@/components/HomeHeader"
-import NewsArticlesMajandus from "@/components/NewsArticlesMajandus"
+import NewsArticles from "@/components/NewsArticles"
 import NewsSideFilters from "@/components/NewsSideFilters"
+import { fetchNews } from "@/utils/newsdata/api"
 
-export default function Majandus() {
+export default async function Majandus() {
+  const news = await fetchNews("business")
+
   return (
     <main>
       <HomeHeader />
 
       <div className="flex flex-1 pt-8 w-[93%] mx-auto gap-10">
         <NewsSideFilters />
-        <NewsArticlesMajandus />
+        <NewsArticles news={news} />
       </div>
     </main>
   )

@@ -1,5 +1,7 @@
-export default function NewsDisplay(props: { news: any }) {
-  const newsInList = props.news.results.map(newsEntry => {
+import { NewsData } from "@/types/NewsData"
+
+export default function NewsDisplay({ news }: { news: NewsData }) {
+  const newsInList = news.results.map(newsEntry => {
     return (
       <div
         className="border-solid rounded border-8 my-8 text-black border-red-900 p-2"
