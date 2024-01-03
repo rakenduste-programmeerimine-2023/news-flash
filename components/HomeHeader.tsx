@@ -4,7 +4,7 @@ function NavLink(props: { link: string }) {
   return (
     <Link
       className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
-      href={props.link}
+      href={props.link.toLowerCase()}
     >
       {props.link}
     </Link>
