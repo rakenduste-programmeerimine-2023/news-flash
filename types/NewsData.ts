@@ -20,4 +20,5 @@ export interface NewsData {
   status: string // "success" if successful
   totalResults: number
   results: Array<NewsDataEntry>
+  nextPage: string
 }
