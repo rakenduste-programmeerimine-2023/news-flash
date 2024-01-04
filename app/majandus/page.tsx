@@ -4,7 +4,7 @@ import NewsSideFilters from "@/components/NewsSideFilters"
 import { fetchNews } from "@/utils/newsdata/api"
 
 export default async function Majandus() {
-  const news = await fetchNews("business")
+  const news = await fetchNews({ category: "business" })
 
   return (
     <main>

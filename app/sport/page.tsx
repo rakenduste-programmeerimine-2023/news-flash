@@ -4,7 +4,7 @@ import NewsSideFilters from "@/components/NewsSideFilters"
 import { fetchNews } from "@/utils/newsdata/api"
 
 export default async function Sport() {
-  const news = await fetchNews("sports")
+  const news = await fetchNews({ category: "sports" })
 
   return (
     <main>

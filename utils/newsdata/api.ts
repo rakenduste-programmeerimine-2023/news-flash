@@ -1,12 +1,14 @@
-export const fetchNews = async (category?: string, query?: string) => {
+export const fetchNews = async (props: {
+  category?: string
+  query?: string
+}) => {
   /*
-  hetkene probleem newsdata API'ga, tasuta plaaniga saab pmst max 10 artiklit ainult kätte
-  üle selle vist ei tundu et saab?
-  arvatavasti peab välja uurima tegelikud official API otspunktid ja neilt info kätte saama.
+  ühe API calliga saab max 10 artiklit kätte. need on "lehekülgedeks" jaotatud,
+  seega lehekülgede vahetamiseks peab uue fetchi tegema.
   */
 
-  const categoryParameter = category ? `&category=${category}` : ""
-  const queryParameter = query ? `&q=${query}` : ""
+  const categoryParameter = props.category ? `&category=${props.category}` : ""
+  const queryParameter = props.query ? `&q=${props.query}` : ""
 
   const newsdataApiKey = process.env.NEWSDATA_API_KEY!
   const fNews = await fetch(
