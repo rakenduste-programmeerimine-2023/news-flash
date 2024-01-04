@@ -4,7 +4,7 @@ import NewsSideFilters from "@/components/NewsSideFilters"
 import { fetchNews } from "@/utils/newsdata/api"
 
 export default async function Home() {
-  const news = await fetchNews()
+  const news = await fetchNews({})
 
   return (
     <main>
