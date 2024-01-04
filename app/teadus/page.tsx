@@ -3,7 +3,7 @@ import NewsArticles from "@/components/NewsArticles"
 import NewsSideFilters from "@/components/NewsSideFilters"
 import { fetchNews } from "@/utils/newsdata/api"
 
-export default async function Teadus2() {
+export default async function Teadus() {
   const news = await fetchNews("science")
 
   return (
