@@ -1,23 +1,13 @@
-import Link from 'next/link'
-import styles from '../components/styles/Home.module.css'
+import HomeHeader from '@/components/Header/HomeHeader'
+import AuthButton from '@/components/Header/AuthButton'
+import changePassword from '../changePassword/page'
 
 export default function Home() {
   return (
     <main>
-      <div>
-        <h1 className="newsFlash">NewsFlash</h1>
-      </div>
-      <nav>
+      <HomeHeader/>
+      <AuthButton />
 
-        <Link href="/Majandus">Majandus</Link>
-        <Link href="/Sport">Sport</Link>
-        <Link href="/Maailm">Maailm</Link>
-        <Link href="/Eesti">Eesti</Link>
-        <Link href="/Kultuur">Kultuur</Link>
-        <Link className="welcome" href="/my_profile">Tere tulemast,
-        user</Link>
-
-      </nav>
       <div className="user-container">
         Minu kasutaja
       </div>
@@ -35,7 +25,7 @@ export default function Home() {
       </div>
       <div className="savedNews">Minu salvestatud Uudised:</div>
       <div className="myComments">Minu kommentaarid:</div>
-      <button id="change_password">Muuda oma parooli</button>
+      <a href="/changePassword" id="change_password">Muuda oma parooli</a>
       <button id="delete_user">Kustuta kasutaja</button>
     </main>
    
