@@ -1,6 +1,13 @@
 import { NewsData } from "@/types/NewsData"
 
 export default function NewsDisplay({ news }: { news: NewsData }) {
+  
+  if (news.results.length === 0) {
+    return (
+      <p className="text-2xl text-black font-bold">Hetkel uudised puuduvad. Palun vaadake hiljem uuesti.</p>
+    )
+  }
+
   const newsInList = news.results.map(newsEntry => {
     return (
       <div

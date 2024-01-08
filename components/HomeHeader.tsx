@@ -30,8 +30,8 @@ function NavigationBar() {
       <NavLink link="Majandus" />
       <NavLink link="Sport" />
       <NavLink link="Maailm" />
-      <NavLink link="Eesti" />
-      <NavLink link="Kultuur" />
+      <NavLink link="Poliitika" />
+      <NavLink link="Teadus" />
     </div>
   )
 }
