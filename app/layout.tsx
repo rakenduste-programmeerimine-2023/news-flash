@@ -1,4 +1,4 @@
-import { GeistSans } from "geist/font"
+import { Inter } from "next/font/google"
 import "./globals.css"
 
 const defaultUrl = process.env.VERCEL_URL
@@ -11,6 +11,8 @@ export const metadata = {
   description: "The fastest way to build apps with Next.js and Supabase"
 }
 
+const inter = Inter({ subsets: ["latin"] })
+
 export default function RootLayout({
   children
 }: {
@@ -19,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={GeistSans.className}
+      className={inter.className}
     >
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col">{children}</main>
