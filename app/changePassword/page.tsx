@@ -1,7 +1,8 @@
 import Link from "next/link"
-import { headers, cookies } from "next/headers"
+import { cookies } from "next/headers"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
+import AuthButton from "@/components/Header/AuthButton"
 
 export default function changePassword({
     searchParams
@@ -13,15 +14,16 @@ export default function changePassword({
 
     const changePassword = async (formData: FormData) => {
         "use server"
-      
-       const newPassword = formData.get("password") as string
-       const repeatPassword = formData.get("repeatPassword") as string
-       const { data, error } = await supabase.auth.updateUser({ password: newPassword })
-
-       if (data) alert("Password updated successfully!")
-       if (error) alert("There was an error updating your password.")
-       
-        return redirect("/")
+  
+        const cookieStore = cookies()
+        const supabase = createClient(cookieStore)    
+        const password = formData.get("password") as string
+       const { data, error } = await supabase.auth.updateUser({ password: password })
+     
+       if (data) return redirect("/login?message=Password changed")
+       if (error) return redirect("/my_profile?message=Could not delete user")
+       await supabase.auth.signOut()
+     
     }
     
 
@@ -51,10 +53,10 @@ export default function changePassword({
                     </svg>{" "}
                     Back
                 </Link>
-
+                <AuthButton />
                 <form
                     className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-                    action={changePassword}
+            
                 >
                     <label
                         className="text-md"
@@ -65,20 +67,7 @@ export default function changePassword({
                     <input
                         className="rounded-md px-4 py-2 bg-inherit border mb-6"
                         type="password"
-                        name="newPassword"
-                        placeholder="••••••••"
-                        required
-                    />
-                    <label
-                        className="text-md"
-                        htmlFor="password"
-                    >
-                        Confirm password
-                    </label>
-                    <input
-                        className="rounded-md px-4 py-2 bg-inherit border mb-6"
-                        type="password"
-                        name="repeatPassword"
+                        name="password"
                         placeholder="••••••••"
                         required
                     />

@@ -1,5 +1,6 @@
+
 import Link from "next/link"
-/*import AuthButton from '../components/Header/AuthButton'*/
+import AuthButton from './AuthButton'
 
 function NavLink(props: { link: string }) {
   return (
@@ -27,7 +28,7 @@ function NewsFlashLogo() {
 
 function NavigationBar() {
   return (
-    <div>
+    <div className="navbar">
       <NavLink link="Majandus" />
       <NavLink link="Sport" />
       <NavLink link="Maailm" />
@@ -35,7 +36,8 @@ function NavigationBar() {
       <NavLink link="Kultuur" />
       <NavLink link="Poliitika" />
       <NavLink link="Teadus" />
-      
+  
+   
     </div>
   )
 }
@@ -44,10 +46,11 @@ export default function HomeHeader() {
  
 
   return (
-    <nav className="py-8 flex flex-wrap gap-8 items-center justify-between w-[93%] mx-auto">
+    <nav className="py-8 flex flex-wrap gap-8 w-[93%] mx-auto">
       <NewsFlashLogo />
       <NavigationBar />
-      <div>{/*<AuthButton />*/}</div>
+    
     </nav>
   )
 }
+

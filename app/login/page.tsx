@@ -3,8 +3,6 @@ import { headers, cookies } from "next/headers"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 
-
-
 export default function Login({
   searchParams
 }: {
@@ -22,7 +20,6 @@ export default function Login({
       email,
       password
     })
-    
 
     if (error) {
       return redirect("/login?message=Could not authenticate user")

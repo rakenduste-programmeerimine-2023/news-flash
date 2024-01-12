@@ -1,10 +1,10 @@
 import AuthButton from '@/components/Header/AuthButton'
 import NewsPage from "@/components/News/NewsPage"
 
-export default function Sport() {
+export default function Teadus() {
   return (
     <>
-      <NewsPage fetchProps={{ category: "sports" }} />
+      <NewsPage fetchProps={{ category: "science" }} />
       <AuthButton />
     </>
   )

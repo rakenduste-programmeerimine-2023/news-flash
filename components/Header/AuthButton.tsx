@@ -24,7 +24,7 @@ export default async function AuthButton() {
   return user ? (
     
     <div className="authButton">
-      Tere tulemast, {user.email}!
+      <a href="/my_profile">Tere tulemast, {user.email}! </a>
       <form action={signOut}>
         <button className=" hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"> 
           Logout

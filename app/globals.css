@@ -62,7 +62,7 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 33vh;
+  top: 42vh;
   left: 4vw;
   width: 18vw;
   height: 5vh;
@@ -77,7 +77,7 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 39.5vh;
+  top: 48.5vh;
   left: 4vw;
   width: 18vw;
   height: 5vh;
@@ -110,45 +110,93 @@ body {
   background-color: #d6d6d6;
 }
 
-#change_password {
+#change_email_btn{
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 65.5vh;
+  top: 34.5vh;
   left: 4vw;
   width: 10vw;
   height: 5vh;
   font-size: 1em;
-  background-color: #d6d6d6;
+
   align-items: center;
   font-size: larger;
   justify-content: center;
 }
 
+#change_password {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 66.5vh;
+  left: 4vw;
+  width: 10vw;
+  height: 5vh;
+  font-size: 1em;
+
+  align-items: center;
+  font-size: larger;
+  justify-content: center;
+}
+
+#change_email_btn:hover {
+  background-color: rgb(27, 160, 75);
+}
+
 #change_password:hover {
-  background-color: #ddd;
-  color: black;
+  background-color: rgb(27, 160, 75);
+}
+
+#delete_user:hover {
+  background-color: rgb(218, 0, 0);
+  cursor: pointer;
+}
+
+
+#update_user:hover {
+  background-color: rgb(27, 160, 75);
+
 }
 
 #delete_user {
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 75.5vh;
+  top: 76.5vh;
   left: 4vw;
   width: 10vw;
   height: 5vh;
   font-size: 1em;
-  background-color: #d6d6d6;
   align-items: center;
   font-size: larger;
   justify-content: center;
 }
 
+#update_user {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 56.5vh;
+  left: 4vw;
+  width: 10vw;
+  height: 5vh;
+  font-size: 1em;
+  align-items: center;
+  font-size: larger;
+  justify-content: center;
+}
+
+
 .authButton{
   position: absolute;
   display: flex;
-  top: 6vh;
-  right: 10vw;
+  top: 5vh;
+  right: 4vw;
   align-items: center;
+}
+
+.navbar {
+  align-self: center;
+  margin-left: 14vw;
 }
