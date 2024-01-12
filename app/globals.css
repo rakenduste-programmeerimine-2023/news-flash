@@ -110,7 +110,7 @@ body {
   background-color: #d6d6d6;
 }
 
-#change_email_btn{
+#change_email_btn {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -153,10 +153,8 @@ body {
   cursor: pointer;
 }
 
-
 #update_user:hover {
   background-color: rgb(27, 160, 75);
-
 }
 
 #delete_user {
@@ -187,8 +185,7 @@ body {
   justify-content: center;
 }
 
-
-.authButton{
+.authButton {
   position: absolute;
   display: flex;
   top: 5vh;

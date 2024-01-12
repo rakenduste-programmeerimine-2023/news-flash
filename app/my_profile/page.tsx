@@ -1,3 +1,4 @@
+
 import HomeHeader from '@/components/Header/HomeHeader'
 import AuthButton from '@/components/Header/AuthButton'
 import { cookies } from "next/headers"
@@ -72,9 +73,11 @@ export default async function changeUser({
       <HomeHeader />
       <AuthButton />
 
+
       <div className="user-container">
         Minu kasutaja
       </div>
+
       <form action={updateEmail}>
         <div className="email-container">
           <label htmlFor="email">E-posti aadress</label>
@@ -120,5 +123,6 @@ export default async function changeUser({
     >
       Login
     </Link>
+
   )
 }
