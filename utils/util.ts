@@ -1,4 +1,6 @@
 import { NewsDataEntry } from "@/types/NewsData"
+import { NewsFlashUser } from "@/types/NewsFlashUser"
+import { SupabaseClient } from "@supabase/supabase-js"
 
 /**
  * Stores article data into local storage.
@@ -32,3 +34,22 @@ export const fetchArticleData = (article_id: string) => {
  */
 export const checkStoredArticleData = (article_id: string) =>
   localStorage[article_id] !== undefined
+
+/**
+ * Gets the currently logged in user.
+ * @param supabase Supabase client
+ * @returns A NewsFlashUser if logged in, otherwise null
+ */
+export const getCurrentUser = async (supabase: SupabaseClient) => {
+  const { data } = await supabase.auth.getUser()
+  if (data.user) {
+    const { data: user } = await supabase
+      .from("users")
+      .select()
+      .eq("id", data.user.id)
+      .single()
+    return user as NewsFlashUser
+  }
+
+  return null
+}

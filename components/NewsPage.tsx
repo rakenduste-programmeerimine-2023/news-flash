@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation"
 import { useEffect, useState, useLayoutEffect } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { NewsFlashUser } from "@/types/NewsFlashUser"
+import { getCurrentUser } from "@/utils/util"
 
 export default function NewsPage({
   fetchProps
@@ -24,8 +25,11 @@ export default function NewsPage({
   useLayoutEffect(() => {
     const updateUser = async () => {
       const supabase = createClient()
-      const { data: user } = await supabase.from("users").select().single()
-      setUser(user)
+      const user = await getCurrentUser(supabase)
+      if (user) {
+        setUser(user)
+      }
+
       setLoading(false)
     }
 
@@ -49,7 +53,7 @@ export default function NewsPage({
     fetchData()
   }, [searchQuery])
 
-  if (!user && loading) return <main />
+  if (loading) return <main />
 
   return (
     <main>

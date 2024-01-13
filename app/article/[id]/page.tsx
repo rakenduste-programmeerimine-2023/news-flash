@@ -12,38 +12,72 @@ Arvatavasti on vaja teha artiklite tabel ja ka kommentaaride tabel.
 
 import HomeHeader from "@/components/HomeHeader"
 import { NewsDataEntry } from "@/types/NewsData"
-import { checkStoredArticleData, fetchArticleData } from "@/utils/util"
+import {
+  checkStoredArticleData,
+  fetchArticleData,
+  getCurrentUser
+} from "@/utils/util"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState, useLayoutEffect } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { NewsFlashUser } from "@/types/NewsFlashUser"
+import { NewsFlashComment } from "@/types/NewsFlashComment"
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const [articleExists, setArticleExists] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [loadingArticle, setLoadingArticle] = useState(true)
+  const [loadingUser, setLoadingUser] = useState(true)
   const [user, setUser] = useState<NewsFlashUser>()
+  const [comments, setComments] = useState<NewsFlashComment[]>()
+  const supabase = createClient()
+
+  const handleComments = () => {
+    return comments?.map((comment, index) => {
+      return (
+        <div
+          className="bg-slate-300 rounded-xl px-4 py-4 w-[70%] text-black"
+          key={index}
+        >
+          <p>{comment.users.username}</p>
+          <p>{comment.content}</p>
+        </div>
+      )
+    })
+  }
 
   useLayoutEffect(() => {
     const updateUser = async () => {
-      const supabase = createClient()
-      const { data: user } = await supabase.from("users").select().single()
-      setUser(user)
+      const user = await getCurrentUser(supabase)
+      if (user) {
+        setUser(user)
+      }
+
+      setLoadingUser(false)
     }
 
     updateUser()
   }, [])
 
   useEffect(() => {
-    setLoading(false)
+    const fetchComments = async () => {
+      const { data } = await supabase
+        .from("comments")
+        .select("content, users(id, username)")
+        .eq("article_id", params.id)
+      setComments(data as unknown as NewsFlashComment[])
+    }
+
     setArticleExists(checkStoredArticleData(params.id))
+    setLoadingArticle(false)
+    fetchComments()
   }, [])
 
-  if (!user && loading) {
+  if (loadingUser) {
     return <main />
   }
 
-  if (loading) {
+  if (loadingArticle) {
     return (
       <main>
         <HomeHeader user={user?.username ? user.username : undefined} />
@@ -115,6 +149,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             alt="artikli pilt"
             fill
             style={{ objectFit: "contain" }}
+            priority
           />
         </div>
 
@@ -122,9 +157,13 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
         <p className="text-3xl w-[70%]">Kommentaarid:</p>
 
-        <div className="bg-slate-300 rounded-xl px-4 py-4 w-[70%]">
-          <p className="italic text-black">Kommentaarid puuduvad.</p>
-        </div>
+        {comments?.length !== 0 ? (
+          handleComments()
+        ) : (
+          <div className="bg-slate-300 rounded-xl px-4 py-4 w-[70%]">
+            <p className="italic text-black">Kommentaarid puuduvad.</p>
+          </div>
+        )}
       </div>
     </main>
   )

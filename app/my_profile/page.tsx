@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client"
 import { useLayoutEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { NewsFlashUser } from "@/types/NewsFlashUser"
+import { getCurrentUser } from "@/utils/util"
 
 export default function MyProfile() {
   const [user, setUser] = useState<NewsFlashUser>()
@@ -19,8 +20,8 @@ export default function MyProfile() {
         router.push("/login")
       }
 
-      const { data: user } = await supabase.from("users").select().single()
-      setUser(user)
+      const user = await getCurrentUser(supabase)
+      setUser(user as NewsFlashUser)
     }
 
     enforceAuth()
