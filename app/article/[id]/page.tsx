@@ -15,11 +15,26 @@ import { NewsDataEntry } from "@/types/NewsData"
 import { checkStoredArticleData, fetchArticleData } from "@/utils/util"
 import Image from "next/image"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
-  const articleExistsInStorage = checkStoredArticleData(params.id)
+  const [articleExists, setArticleExists] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  if (!articleExistsInStorage) {
+  useEffect(() => {
+    setLoading(false)
+    setArticleExists(checkStoredArticleData(params.id))
+  }, [])
+
+  if (loading) {
+    return (
+      <main>
+        <HomeHeader />
+      </main>
+    )
+  }
+
+  if (!articleExists) {
     return (
       <main>
         <HomeHeader />
