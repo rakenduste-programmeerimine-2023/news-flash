@@ -3,53 +3,65 @@ import { headers, cookies } from "next/headers"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 
-export default function Login({
+export default function Signup({
   searchParams
 }: {
   searchParams: { message: string }
 }) {
-  const signIn = async (formData: FormData) => {
-    "use server"
-
-    const email = formData.get("email") as string
-    const password = formData.get("password") as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
-
-    if (error) {
-      return redirect("/login?message=Could not authenticate user")
-    }
-
-    return redirect("/")
-  }
-
   const signUp = async (formData: FormData) => {
     "use server"
 
     const origin = headers().get("origin")
+
+    const username = formData.get("username") as string
+    const firstName = formData.get("firstname") as string
+    const lastName = formData.get("lastname") as string
     const email = formData.get("email") as string
     const password = formData.get("password") as string
+
+    firstName.trim()
+    lastName.trim()
+    email.trim()
+    username.trim()
+
     const cookieStore = cookies()
     const supabase = createClient(cookieStore)
 
-    const { data: userEmail } = await supabase
-      .from("auth.users")
+    const { data: userEmail, error: userError } = await supabase
+      .from("users")
       .select()
       .eq("email", email)
+      .single()
+
+    if (userError) {
+      console.log(userError)
+    }
 
     if (userEmail) {
       // if account with this email already exists
       return redirect(
-        "/login?message=An account with this email already exists"
+        "/signup?message=An account with this email already exists"
       )
     }
 
-    const { error } = await supabase.auth.signUp({
+    const { data: userUsername, error: userUsernameError } = await supabase
+      .from("users")
+      .select()
+      .eq("username", username)
+      .single()
+
+    if (userUsernameError) {
+      console.log(userUsernameError)
+    }
+
+    if (userUsername) {
+      // if account with this username already exists
+      return redirect(
+        "/signup?message=An account with this username already exists"
+      )
+    }
+
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -58,7 +70,19 @@ export default function Login({
     })
 
     if (error) {
-      return redirect(`/login?message=${error.message}`)
+      return redirect(`/signup?message=${error.message}`)
+    }
+
+    const { error: insertError } = await supabase.from("users").insert({
+      id: data.user?.id,
+      username: username,
+      first_name: firstName,
+      last_name: lastName,
+      email: email
+    })
+
+    if (insertError) {
+      console.log(insertError)
     }
 
     return redirect("/login?message=Check email to continue sign up process")
@@ -68,7 +92,7 @@ export default function Login({
     <header className="min-h-screen flex flex-col items-center">
       <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
         <Link
-          href="/"
+          href="/login"
           className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
         >
           <svg
@@ -90,8 +114,47 @@ export default function Login({
 
         <form
           className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-          action={signIn}
+          action={signUp}
         >
+          <label
+            className="text-md"
+            htmlFor="firstname"
+          >
+            First name
+          </label>
+          <input
+            className="rounded-md px-4 py-2 bg-inherit border mb-6"
+            name="firstname"
+            placeholder="First name"
+            required
+          />
+
+          <label
+            className="text-md"
+            htmlFor="lastname"
+          >
+            Last name
+          </label>
+          <input
+            className="rounded-md px-4 py-2 bg-inherit border mb-6"
+            name="lastname"
+            placeholder="Last name"
+            required
+          />
+
+          <label
+            className="text-md"
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            className="rounded-md px-4 py-2 bg-inherit border mb-6"
+            name="username"
+            placeholder="Username"
+            required
+          />
+
           <label
             className="text-md"
             htmlFor="email"
@@ -118,12 +181,6 @@ export default function Login({
             required
           />
           <button className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2">
-            Sign In
-          </button>
-          <button
-            formAction={signUp}
-            className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
-          >
             Sign Up
           </button>
           {searchParams?.message && (

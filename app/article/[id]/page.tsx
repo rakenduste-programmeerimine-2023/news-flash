@@ -15,21 +15,38 @@ import { NewsDataEntry } from "@/types/NewsData"
 import { checkStoredArticleData, fetchArticleData } from "@/utils/util"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useLayoutEffect } from "react"
+import { createClient } from "@/utils/supabase/client"
+import { NewsFlashUser } from "@/types/NewsFlashUser"
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const [articleExists, setArticleExists] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<NewsFlashUser>()
+
+  useLayoutEffect(() => {
+    const updateUser = async () => {
+      const supabase = createClient()
+      const { data: user } = await supabase.from("users").select().single()
+      setUser(user)
+    }
+
+    updateUser()
+  }, [])
 
   useEffect(() => {
     setLoading(false)
     setArticleExists(checkStoredArticleData(params.id))
   }, [])
 
+  if (!user && loading) {
+    return <main />
+  }
+
   if (loading) {
     return (
       <main>
-        <HomeHeader />
+        <HomeHeader user={user?.username ? user.username : undefined} />
       </main>
     )
   }
@@ -37,7 +54,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
   if (!articleExists) {
     return (
       <main>
-        <HomeHeader />
+        <HomeHeader user={user?.username ? user.username : undefined} />
         <div className="w-full py-8 text-center text-4xl">
           <p>Artiklit ei leitud.</p>
         </div>
@@ -70,7 +87,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
   return (
     <main>
-      <HomeHeader />
+      <HomeHeader user={user?.username ? user.username : undefined} />
 
       <div className="flex flex-col py-8 w-[80%] mx-auto gap-10 text-justify items-center">
         <Link

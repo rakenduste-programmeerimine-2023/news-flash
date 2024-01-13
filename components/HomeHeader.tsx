@@ -1,4 +1,8 @@
+"use client"
+
 import Link from "next/link"
+import { createClient } from "@/utils/supabase/client"
+import { useRouter } from "next/navigation"
 
 function NavLink(props: { link: string }) {
   return (
@@ -36,22 +40,39 @@ function NavigationBar() {
   )
 }
 
-export default function HomeHeader({ user = undefined }) {
+export default function HomeHeader({ user }: { user?: string }) {
+  const router = useRouter()
+
+  const handleLogOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+
+    router.replace("/login")
+  }
+
   const loginObject =
     user === undefined ? (
       <Link
         className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
         href="/login"
       >
-        LOGI SISSE
+        Logi sisse
       </Link>
     ) : (
-      <Link
-        className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
-        href="/my_profile"
-      >
-        Tere tulemast, {user}
-      </Link>
+      <div>
+        <Link
+          className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
+          href="/my_profile"
+        >
+          Tere tulemast, {user}
+        </Link>
+        <button
+          className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
+          onClick={handleLogOut}
+        >
+          Logi välja
+        </button>
+      </div>
     )
 
   return (

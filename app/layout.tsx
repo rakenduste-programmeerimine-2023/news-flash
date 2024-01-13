@@ -8,7 +8,7 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "NewsFlash",
-  description: "The fastest way to build apps with Next.js and Supabase"
+  description: "Kõik sinu uudised ühes kohas"
 }
 
 const inter = Inter({ subsets: ["latin"] })
