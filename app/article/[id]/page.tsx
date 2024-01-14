@@ -23,6 +23,7 @@ import { useEffect, useState, useLayoutEffect } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { NewsFlashUser } from "@/types/NewsFlashUser"
 import { NewsFlashComment } from "@/types/NewsFlashComment"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const [articleExists, setArticleExists] = useState(false)
@@ -31,6 +32,8 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
   const [user, setUser] = useState<NewsFlashUser>()
   const [comments, setComments] = useState<NewsFlashComment[]>()
   const supabase = createClient()
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   const handleComments = () => {
     return comments?.map((comment, index) => {
@@ -44,6 +47,44 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         </div>
       )
     })
+  }
+
+  const handleSavingArticle = async () => {
+    const button = document.getElementById("save_article_button")
+    if (!button) return
+
+    const { data, error: selectError } = await supabase
+      .from("saved_articles")
+      .select()
+      .eq("article_id", params.id)
+      .single()
+
+    if (selectError?.code === "42501") {
+      router.push(`/article/${params.id}?message=Te ei ole sisse logitud.`)
+      return
+    }
+
+    if (data) {
+      button.innerHTML = "Uudis on juba salvestatud!"
+      setTimeout(() => {
+        button.innerHTML = "Salvesta uudis"
+      }, 3000)
+      return
+    }
+
+    const { error } = await supabase
+      .from("saved_articles")
+      .insert({ article_id: params.id })
+
+    if (error?.code === "42501") {
+      router.push(`/article/${params.id}?message=Te ei ole sisse logitud.`)
+      return
+    }
+
+    button.innerHTML = "Uudis salvestatud!"
+    setTimeout(() => {
+      button.innerHTML = "Salvesta uudis"
+    }, 3000)
   }
 
   useLayoutEffect(() => {
@@ -123,6 +164,12 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
     <main>
       <HomeHeader user={user?.username ? user.username : undefined} />
 
+      {searchParams.get("message") && (
+        <p className="text-center text-red-600 italic">
+          {searchParams.get("message")}
+        </p>
+      )}
+
       <div className="flex flex-col py-8 w-[80%] mx-auto gap-10 text-justify items-center">
         <Link
           href={article.link}
@@ -138,7 +185,11 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             <p className="text-xs">{`${releaseDateText}, ${releaseTimeText}`}</p>
           </div>
 
-          <button className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg">
+          <button
+            className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
+            onClick={handleSavingArticle}
+            id="save_article_button"
+          >
             Salvesta uudis
           </button>
         </div>
