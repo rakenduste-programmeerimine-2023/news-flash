@@ -8,11 +8,12 @@ import {
   fetchNews,
   updateNewsProps
 } from "@/utils/newsdata/api"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState, useLayoutEffect } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { NewsFlashUser } from "@/types/NewsFlashUser"
 import { getCurrentUser } from "@/utils/util"
+import { NewsDataFilter } from "@/types/NewsDataFilter"
 
 export default function NewsPage({
   fetchProps
@@ -21,6 +22,7 @@ export default function NewsPage({
 }) {
   const [user, setUser] = useState<NewsFlashUser>()
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useLayoutEffect(() => {
     const updateUser = async () => {
@@ -40,6 +42,10 @@ export default function NewsPage({
   updateNewsProps(props)
 
   const [news, setNews] = useState()
+  const [newsFilters, setNewsFilters] = useState<NewsDataFilter>({
+    todayNews: false,
+    lastSevenDaysNews: false
+  })
 
   const searchParams = useSearchParams()
   const searchQuery = searchParams && searchParams.get("q")
@@ -60,8 +66,14 @@ export default function NewsPage({
       <HomeHeader user={user?.username ? user.username : undefined} />
 
       <div className="flex flex-1 pt-8 w-[93%] mx-auto gap-10">
-        <NewsSideFilters />
-        <NewsArticles news={news} />
+        <NewsSideFilters
+          filter={newsFilters}
+          setFilter={setNewsFilters}
+        />
+        <NewsArticles
+          news={news}
+          filter={newsFilters}
+        />
       </div>
     </main>
   )

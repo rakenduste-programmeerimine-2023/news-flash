@@ -1,7 +1,14 @@
 import { NewsData } from "@/types/NewsData"
 import NewsDisplay from "./NewsDisplay"
+import { NewsDataFilter } from "@/types/NewsDataFilter"
 
-export default function NewsArticles({ news }: { news: NewsData | undefined }) {
+export default function NewsArticles({
+  news,
+  filter
+}: {
+  news: NewsData | undefined
+  filter: NewsDataFilter
+}) {
   if (!news) return <div />
 
   return (
@@ -9,7 +16,10 @@ export default function NewsArticles({ news }: { news: NewsData | undefined }) {
       {news.results.length > 0 && (
         <p className="text-2xl text-black font-bold">Viimased uudised:</p>
       )}
-      <NewsDisplay news={news} />
+      <NewsDisplay
+        news={news}
+        filter={filter}
+      />
     </div>
   )
 }

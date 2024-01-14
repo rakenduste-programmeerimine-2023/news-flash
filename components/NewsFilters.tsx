@@ -1,4 +1,46 @@
-export default function NewsFilters() {
+"use client"
+
+import { NewsDataFilter } from "@/types/NewsDataFilter"
+import { Dispatch, SetStateAction, useState } from "react"
+import DatePicker from "react-date-picker"
+import "react-date-picker/dist/DatePicker.css"
+import "react-calendar/dist/Calendar.css"
+
+export default function NewsFilters({
+  filter,
+  setFilter
+}: {
+  filter: NewsDataFilter
+  setFilter: Dispatch<SetStateAction<NewsDataFilter>>
+}) {
+  const [dateFilter, setDateFilter] = useState<[Date | null, Date | null]>([
+    null,
+    null
+  ])
+
+  const onDateChange = (values: [Date | null, Date | null]) => {
+    setDateFilter(values)
+
+    var fromFilter = undefined
+    var toFilter = undefined
+
+    if (values[0]) {
+      fromFilter = values[0]
+    }
+
+    if (values[1]) {
+      toFilter = values[1]
+    }
+
+    const { dateFrom, dateTo, ...rest } = filter
+
+    setFilter({
+      dateFrom: fromFilter,
+      dateTo: toFilter,
+      ...rest
+    })
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <div>
@@ -13,7 +55,13 @@ export default function NewsFilters() {
           type="checkbox"
           id="date_checkboxDay"
           name="date_checkboxDay"
-          value="day"
+          onChange={() => {
+            const { todayNews, ...rest } = filter
+            setFilter({
+              todayNews: !todayNews,
+              ...rest
+            })
+          }}
         ></input>
       </div>
       <div>
@@ -29,23 +77,23 @@ export default function NewsFilters() {
           id="date_checkboxWeek"
           name="date_checkboxWeek"
           value="week"
+          onChange={() => {
+            const { lastSevenDaysNews, ...rest } = filter
+            setFilter({
+              lastSevenDaysNews: !lastSevenDaysNews,
+              ...rest
+            })
+          }}
         ></input>
       </div>
 
-      <div className="flex gap-8">
-        <input
-          className="w-20 text-black pl-1"
-          id="searchbarFrom"
-          type="text"
-          placeholder="Alates"
-        ></input>
-
-        <input
-          className="w-20 text-black pl-1"
-          id="searchbarUntil"
-          type="text"
-          placeholder="Kuni"
-        ></input>
+      <div className="flex gap-8 text-black">
+        <DatePicker
+          returnValue="range"
+          selectRange
+          onChange={onDateChange}
+          value={dateFilter}
+        />
       </div>
     </div>
   )
