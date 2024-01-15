@@ -24,12 +24,9 @@ export default function NewsFilters({
     var fromFilter = undefined
     var toFilter = undefined
 
-    if (values[0]) {
-      fromFilter = values[0]
-    }
-
-    if (values[1]) {
-      toFilter = values[1]
+    if (values) {
+      fromFilter = values[0]!
+      toFilter = values[1]!
     }
 
     const { dateFrom, dateTo, ...rest } = filter
