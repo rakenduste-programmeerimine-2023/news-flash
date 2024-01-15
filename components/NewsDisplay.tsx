@@ -44,6 +44,14 @@ export default function NewsDisplay({
     }
   })
 
+  if (filteredNews.length === 0) {
+    return (
+      <p className="text-2xl text-black font-bold">
+        Uudiseid nende filtritega ei leitud.
+      </p>
+    )
+  }
+
   const newsInList = filteredNews.map(newsEntry => {
     storeArticleData(newsEntry) // gets called on homepage for each article
 
