@@ -1,6 +1,7 @@
 import { NewsData } from "@/types/NewsData"
 import { NewsDataFilter } from "@/types/NewsDataFilter"
 import { storeArticleData } from "@/utils/util"
+import Image from "next/image"
 
 export default function NewsDisplay({
   news,
@@ -11,7 +12,7 @@ export default function NewsDisplay({
 }) {
   if (news.results.length === 0) {
     return (
-      <p className="text-2xl text-black font-bold">
+      <p className="text-2xl text-black font-bold text-center">
         Hetkel uudised puuduvad. Palun vaadake hiljem uuesti.
       </p>
     )
@@ -46,7 +47,7 @@ export default function NewsDisplay({
 
   if (filteredNews.length === 0) {
     return (
-      <p className="text-2xl text-black font-bold">
+      <p className="text-2xl text-black font-bold text-center">
         Uudiseid nende filtritega ei leitud.
       </p>
     )
@@ -55,27 +56,51 @@ export default function NewsDisplay({
   const newsInList = filteredNews.map(newsEntry => {
     storeArticleData(newsEntry) // gets called on homepage for each article
 
+    const descriptionElement =
+      newsEntry.description === null ? (
+        <p className="text-justify italic">Kirjeldus puudub.</p>
+      ) : (
+        <p className="text-justify">{newsEntry.description}</p>
+      )
+
     return (
       <div
-        className="border-solid rounded border-8 my-8 text-black border-red-900 p-2"
+        className="flex p-2 gap-4 bg-slate-200 text-black border-4 border-slate-400 rounded-lg mr-2"
         key={newsEntry.article_id}
       >
-        <a
-          href={`article/${newsEntry.article_id}`}
-          className="font-bold"
-        >
-          {newsEntry.title}
-        </a>
+        <div className="relative min-w-[200px] w-[200px] h-full mt-1">
+          <a href={`article/${newsEntry.article_id}`}>
+            <Image
+              src={newsEntry.image_url}
+              alt="artikli pilt"
+              width={200}
+              height={200}
+              style={{ objectFit: "contain", overflow: "hidden" }}
+              className="rounded-md"
+              priority
+            />
+          </a>
+        </div>
 
-        <p>{newsEntry.description}</p>
+        <div className="flex flex-col gap-2">
+          <a
+            href={`article/${newsEntry.article_id}`}
+            className="transition ease-in-out font-bold hover:text-blue-500"
+          >
+            {newsEntry.title}
+          </a>
+          {descriptionElement}
+        </div>
       </div>
     )
   })
 
   return (
     <>
-      <p className="text-2xl text-black font-bold">Viimased uudised:</p>
-      <ul className="overflow-hidden overflow-y-scroll h-[97%]">
+      <p className="text-2xl text-black font-bold text-center pb-2">
+        Viimased uudised:
+      </p>
+      <ul className="flex flex-col gap-2 overflow-hidden overflow-y-scroll h-[95%]">
         {newsInList}
       </ul>
     </>
