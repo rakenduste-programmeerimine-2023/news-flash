@@ -84,7 +84,8 @@ export default function NewsFilters({
         ></input>
       </div>
 
-      <div className="flex gap-8 text-black">
+      <div className="flex gap-8 text-black items-center">
+        <p>Ajavahemik:</p>
         <DatePicker
           returnValue="range"
           selectRange

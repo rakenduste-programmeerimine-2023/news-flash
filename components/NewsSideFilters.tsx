@@ -11,7 +11,7 @@ export default function NewsSideFilters({
   setFilter: Dispatch<SetStateAction<NewsDataFilter>>
 }) {
   return (
-    <div className="flex flex-col gap-4">
+    <>
       <NewsSearchbar />
 
       <div className="bg-slate-300 rounded-xl px-4 py-4">
@@ -20,6 +20,6 @@ export default function NewsSideFilters({
           setFilter={setFilter}
         />
       </div>
-    </div>
+    </>
   )
 }

@@ -21,7 +21,7 @@ export default function NewsSearchbar() {
         Otsi:
       </label>
       <input
-        className="text-black pl-1"
+        className="text-black pl-1 rounded-md"
         id="searchbar"
         type="text"
         placeholder="Märksõna"

@@ -53,3 +53,65 @@ export const getCurrentUser = async (supabase: SupabaseClient) => {
 
   return null
 }
+
+/**
+ * Formats a Date object into an Estonian date representation string.
+ * @param date The date to format from.
+ * @returns The formatted Estonian string of the supplied date
+ */
+export const constructDate = (date: Date) => {
+  const monthNames = [
+    "jaanuar",
+    "veebruar",
+    "märts",
+    "aprill",
+    "mai",
+    "juuni",
+    "juuli",
+    "august",
+    "september",
+    "oktoober",
+    "november",
+    "detsember"
+  ]
+
+  return `${date.getDate()}. ${
+    monthNames[date.getMonth()]
+  } ${date.getFullYear()}`
+}
+
+/**
+ * Formats a Date object into an Estonian time representation string.
+ * @param date The date to format from.
+ * @returns The formatted Estonian string of the supplied date's time
+ */
+export const constructTime = (date: Date) => {
+  const hours = date.getHours().toString().padStart(2, "0")
+  const minutes = date.getMinutes().toString().padStart(2, "0")
+
+  return `${hours}:${minutes}`
+}
+
+/**
+ * Formats a Date object into an Estonian date and time representation string.
+ * @param date The date to format from.
+ * @returns The formatted Estonian string of the supplied date's date and time
+ */
+export const constructDateAndTime = (date: Date) => {
+  return `${constructDate(date)}, ${constructTime(date)}`
+}
+
+/**
+ * Constructs a Date object from the given timestamptz string.
+ * @param timestamptz The date representation in timestamptz format.
+ * @returns A new Date object
+ */
+export const constructDateFromTimestamptz = (timestamptz: string) => {
+  // find the index of where the microseconds and timezone start, we don't need those
+  const cutIndex = timestamptz.lastIndexOf(".")
+
+  // convert to proper date representation string
+  const dateString = timestamptz.substring(0, cutIndex)
+
+  return new Date(dateString)
+}

@@ -14,6 +14,8 @@ import HomeHeader from "@/components/HomeHeader"
 import { NewsDataEntry } from "@/types/NewsData"
 import {
   checkStoredArticleData,
+  constructDateAndTime,
+  constructDateFromTimestamptz,
   fetchArticleData,
   getCurrentUser
 } from "@/utils/util"
@@ -37,21 +39,23 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
   const handleComments = () => {
     return comments?.map((comment, index) => {
+      const date = constructDateFromTimestamptz(comment.created_at)
+
       return (
         <div
           className="bg-slate-300 rounded-xl px-4 py-4 w-[70%] text-black"
           key={index}
         >
-          <p>{comment.users.username}</p>
-          <p>{comment.content}</p>
+          <p className="font-bold">{comment.users.username}</p>
+          <p className="text-xs">{constructDateAndTime(date)}</p>
+          <p className="mt-3">{comment.content}</p>
         </div>
       )
     })
   }
 
-  const handleSavingArticle = async () => {
-    const button = document.getElementById("save_article_button")
-    if (!button) return
+  const handleSavingArticle = async (e: any) => {
+    const button = e.target
 
     const { data, error: selectError } = await supabase
       .from("saved_articles")
@@ -60,7 +64,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       .single()
 
     if (selectError?.code === "42501") {
-      router.push(`/article/${params.id}?message=Te ei ole sisse logitud.`)
+      router.push(`/article/${params.id}?error=Te ei ole sisse logitud.`)
       return
     }
 
@@ -77,7 +81,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       .insert({ article_id: params.id })
 
     if (error?.code === "42501") {
-      router.push(`/article/${params.id}?message=Te ei ole sisse logitud.`)
+      router.push(`/article/${params.id}?error=Te ei ole sisse logitud.`)
       return
     }
 
@@ -104,7 +108,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
     const fetchComments = async () => {
       const { data } = await supabase
         .from("comments")
-        .select("content, users(id, username)")
+        .select("created_at, content, users(id, username)")
         .eq("article_id", params.id)
       setComments(data as unknown as NewsFlashComment[])
     }
@@ -137,36 +141,65 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
     )
   }
 
-  const monthNames = [
-    "jaanuar",
-    "veebruar",
-    "märts",
-    "aprill",
-    "mai",
-    "juuni",
-    "juuli",
-    "august",
-    "september",
-    "oktoober",
-    "november",
-    "detsember"
-  ]
-
   const article = fetchArticleData(params.id) as NewsDataEntry
-  const releaseDate = new Date(article.pubDate)
-  const releaseDateText = `${releaseDate.getDate()}. ${
-    monthNames[releaseDate.getMonth()]
-  } ${releaseDate.getFullYear()}`
 
-  const releaseTimeText = `${releaseDate.getHours()}:${releaseDate.getMinutes()}`
+  const releaseDate = new Date(article.pubDate)
+
+  const submitComment = async (formData: FormData) => {
+    const comment = formData.get("comment") as string
+    const { error } = await supabase.from("comments").insert({
+      commenter_uuid: user!.id,
+      article_id: params.id,
+      content: comment
+    })
+
+    if (error) {
+      console.log(error)
+      router.push(`/article/${params.id}?error=Kommenteerimisel tekkis viga.`)
+      return
+    }
+
+    router.push(`/article/${params.id}?success=Kommentaar lisatud!`)
+  }
+
+  const addCommentElement =
+    user !== undefined ? (
+      <form
+        action={submitComment}
+        className="flex flex-col w-[50vw] gap-4 items-center"
+      >
+        <textarea
+          rows={4}
+          cols={100}
+          name="comment"
+          placeholder="Kommenteeri..."
+          className="rounded-md resize-none text-black px-2 py-2"
+          required
+        />
+        <button
+          type="submit"
+          className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg w-fit"
+        >
+          Lisa kommentaar
+        </button>
+      </form>
+    ) : (
+      <></>
+    )
 
   return (
     <main>
       <HomeHeader user={user?.username ? user.username : undefined} />
 
-      {searchParams.get("message") && (
+      {searchParams.get("error") && (
         <p className="text-center text-red-600 italic">
-          {searchParams.get("message")}
+          {searchParams.get("error")}
+        </p>
+      )}
+
+      {searchParams.get("success") && (
+        <p className="text-center text-green-600 italic">
+          {searchParams.get("success")}
         </p>
       )}
 
@@ -182,13 +215,13 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         <div className="self-start flex w-full justify-between">
           <div>
             <p>{article.creator}</p>
-            <p className="text-xs">{`${releaseDateText}, ${releaseTimeText}`}</p>
+            <p className="text-xs">{constructDateAndTime(releaseDate)}</p>
           </div>
 
           <button
             className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
             onClick={handleSavingArticle}
-            id="save_article_button"
+            type="button"
           >
             Salvesta uudis
           </button>
@@ -215,6 +248,8 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             <p className="italic text-black">Kommentaarid puuduvad.</p>
           </div>
         )}
+
+        {addCommentElement}
       </div>
     </main>
   )
