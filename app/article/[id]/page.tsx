@@ -178,7 +178,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         />
         <button
           type="submit"
-          className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg w-fit"
+          className="transition ease-in-out hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg w-fit"
         >
           Lisa kommentaar
         </button>
@@ -206,7 +206,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       <div className="flex flex-col py-8 w-[80%] mx-auto gap-10 text-justify items-center">
         <Link
           href={article.link}
-          className="text-4xl text-left underline"
+          className="transition ease-in-out text-4xl text-left underline hover:text-blue-300"
           target="_blank"
         >
           {article.title}
@@ -219,7 +219,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
           </div>
 
           <button
-            className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
+            className="transition ease-in-out hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
             onClick={handleSavingArticle}
             type="button"
           >

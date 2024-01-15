@@ -132,14 +132,14 @@ export default function NewsPage({
               <button
                 onClick={handleLastPageButton}
                 disabled={!lastPageButtonActive}
-                className="text-xl text-white bg-red-800 px-1 rounded-xl disabled:text-black disabled:bg-slate-700 hover:bg-red-600"
+                className="transition ease-in-out text-xl text-white bg-red-800 px-1 rounded-xl disabled:text-black disabled:bg-slate-700 hover:bg-red-600"
               >
                 &lt;-
               </button>
               <button
                 onClick={handleNextPageButton}
                 disabled={!nextPageButtonActive}
-                className="text-xl text-white bg-red-800 px-1 rounded-xl disabled:text-black disabled:bg-slate-700 hover:bg-red-600"
+                className="transition ease-in-out text-xl text-white bg-red-800 px-1 rounded-xl disabled:text-black disabled:bg-slate-700 hover:bg-red-600"
               >
                 -&gt;
               </button>

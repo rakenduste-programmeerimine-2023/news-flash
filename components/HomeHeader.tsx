@@ -1,13 +1,14 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
 
 function NavLink(props: { link: string }) {
   return (
     <Link
-      className="hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
+      className="transition ease-in-out hover:bg-red-700 px-4 py-3 bg-red-900 mx-2 rounded-lg"
       href={props.link.toLowerCase()}
     >
       {props.link}
@@ -20,7 +21,7 @@ function NewsFlashLogo() {
     <div>
       <Link
         href="/"
-        className="font-bold text-4xl"
+        className="font-bold text-4xl hover:animate-[pulse_1s_ease-in-out_infinite]"
       >
         NewsFlash
       </Link>
@@ -53,21 +54,27 @@ export default function HomeHeader({ user }: { user?: string }) {
   const loginObject =
     user === undefined ? (
       <Link
-        className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
+        className="transition ease-in-out hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
         href="/login"
       >
         Logi sisse
       </Link>
     ) : (
-      <div>
+      <div className="flex">
         <Link
-          className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
+          className="transition ease-in-out inline-flex gap-1 hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
           href="/my_profile"
         >
-          Tere tulemast, {user}
+          <Image
+            src="/icons8-user-96.png"
+            width={24}
+            height={24}
+            alt="usericon"
+          />
+          <p className="font-semibold">{user}</p>
         </Link>
         <button
-          className="hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
+          className="transition ease-in-out hover:bg-sky-400 px-4 py-3 bg-sky-600 mx-2 rounded-lg"
           onClick={handleLogOut}
         >
           Logi välja
@@ -79,7 +86,7 @@ export default function HomeHeader({ user }: { user?: string }) {
     <nav className="py-8 flex flex-wrap gap-8 items-center justify-between w-[93%] mx-auto">
       <NewsFlashLogo />
       <NavigationBar />
-      <div>{loginObject}</div>
+      {loginObject}
     </nav>
   )
 }
