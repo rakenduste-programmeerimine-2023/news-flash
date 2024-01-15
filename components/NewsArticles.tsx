@@ -18,9 +18,6 @@ export default function NewsArticles({
 
   return (
     <div className="h-[80vh] w-full bg-slate-300 rounded-xl px-4 py-4">
-      {news.results.length > 0 && (
-        <p className="text-2xl text-black font-bold">Viimased uudised:</p>
-      )}
       <NewsDisplay
         news={news}
         filter={filter}

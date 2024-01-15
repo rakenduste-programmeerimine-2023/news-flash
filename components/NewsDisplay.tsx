@@ -73,6 +73,11 @@ export default function NewsDisplay({
   })
 
   return (
-    <ul className="overflow-hidden overflow-y-scroll h-[97%]">{newsInList}</ul>
+    <>
+      <p className="text-2xl text-black font-bold">Viimased uudised:</p>
+      <ul className="overflow-hidden overflow-y-scroll h-[97%]">
+        {newsInList}
+      </ul>
+    </>
   )
 }
