@@ -1,7 +1,7 @@
 import { NewsData } from "@/types/NewsData"
 import { NewsDataFilter } from "@/types/NewsDataFilter"
 import { storeArticleData } from "@/utils/util"
-import Image from "next/image"
+import Article from "./Article"
 
 export default function NewsDisplay({
   news,
@@ -56,43 +56,7 @@ export default function NewsDisplay({
   const newsInList = filteredNews.map(newsEntry => {
     storeArticleData(newsEntry) // gets called on homepage for each article
 
-    const descriptionElement =
-      newsEntry.description === null ? (
-        <p className="text-justify italic">Kirjeldus puudub.</p>
-      ) : (
-        <p className="text-justify">{newsEntry.description}</p>
-      )
-
-    return (
-      <div
-        className="flex p-2 gap-4 bg-slate-200 text-black border-4 border-slate-400 rounded-lg mr-2"
-        key={newsEntry.article_id}
-      >
-        <div className="relative min-w-[200px] w-[200px] h-full mt-1">
-          <a href={`article/${newsEntry.article_id}`}>
-            <Image
-              src={newsEntry.image_url}
-              alt="artikli pilt"
-              width={200}
-              height={200}
-              style={{ objectFit: "contain", overflow: "hidden" }}
-              className="rounded-md"
-              priority
-            />
-          </a>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <a
-            href={`article/${newsEntry.article_id}`}
-            className="transition ease-in-out font-bold hover:text-blue-500"
-          >
-            {newsEntry.title}
-          </a>
-          {descriptionElement}
-        </div>
-      </div>
-    )
+    return <Article article={newsEntry} />
   })
 
   return (

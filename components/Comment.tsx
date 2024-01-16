@@ -1,0 +1,28 @@
+"use client"
+
+import { NewsFlashComment } from "@/types/NewsFlashComment"
+import {
+  constructDateAndTime,
+  constructDateFromTimestamptz
+} from "@/utils/util"
+
+export default function Comment({
+  comment,
+  key
+}: {
+  comment: NewsFlashComment
+  key: any
+}) {
+  const date = constructDateFromTimestamptz(comment.created_at)
+
+  return (
+    <div
+      className="bg-slate-300 rounded-xl px-4 py-4 text-black"
+      key={key}
+    >
+      <p className="font-bold">{comment.users.username}</p>
+      <p className="text-xs">{constructDateAndTime(date)}</p>
+      <p className="mt-3">{comment.content}</p>
+    </div>
+  )
+}

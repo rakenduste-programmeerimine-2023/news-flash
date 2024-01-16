@@ -26,6 +26,7 @@ import { createClient } from "@/utils/supabase/client"
 import { NewsFlashUser } from "@/types/NewsFlashUser"
 import { NewsFlashComment } from "@/types/NewsFlashComment"
 import { useRouter, useSearchParams } from "next/navigation"
+import Comment from "@/components/Comment"
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const [articleExists, setArticleExists] = useState(false)
@@ -39,17 +40,11 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
   const handleComments = () => {
     return comments?.map((comment, index) => {
-      const date = constructDateFromTimestamptz(comment.created_at)
-
       return (
-        <div
-          className="bg-slate-300 rounded-xl px-4 py-4 w-[70%] text-black"
+        <Comment
+          comment={comment}
           key={index}
-        >
-          <p className="font-bold">{comment.users.username}</p>
-          <p className="text-xs">{constructDateAndTime(date)}</p>
-          <p className="mt-3">{comment.content}</p>
-        </div>
+        />
       )
     })
   }
@@ -242,7 +237,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         <p className="text-3xl w-[70%]">Kommentaarid:</p>
 
         {comments?.length !== 0 ? (
-          handleComments()
+          <div className="flex flex-col w-[70%] gap-10">{handleComments()}</div>
         ) : (
           <div className="bg-slate-300 rounded-xl px-4 py-4 w-[70%]">
             <p className="italic text-black">Kommentaarid puuduvad.</p>
