@@ -6,6 +6,10 @@ import DatePicker from "react-date-picker"
 import "react-date-picker/dist/DatePicker.css"
 import "react-calendar/dist/Calendar.css"
 
+type ValuePiece = Date | null
+
+type Value = ValuePiece | [ValuePiece, ValuePiece]
+
 export default function NewsFilters({
   filter,
   setFilter
@@ -13,20 +17,20 @@ export default function NewsFilters({
   filter: NewsDataFilter
   setFilter: Dispatch<SetStateAction<NewsDataFilter>>
 }) {
-  const [dateFilter, setDateFilter] = useState<[Date | null, Date | null]>([
+  const [dateFilter, setDateFilter] = useState<[ValuePiece, ValuePiece]>([
     null,
     null
   ])
 
-  const onDateChange = (values: [Date | null, Date | null]) => {
-    setDateFilter(values)
+  const onDateChange = (values: Value) => {
+    setDateFilter(values as [ValuePiece, ValuePiece])
 
     var fromFilter = undefined
     var toFilter = undefined
 
     if (values) {
-      fromFilter = values[0]!
-      toFilter = values[1]!
+      fromFilter = (values as [ValuePiece, ValuePiece])[0]!
+      toFilter = (values as [ValuePiece, ValuePiece])[1]!
     }
 
     const { dateFrom, dateTo, ...rest } = filter
