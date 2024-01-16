@@ -173,11 +173,11 @@ export default function MyProfile({
 
         <div className="flex flex-col w-[50vw] items-center gap-4">
           <p className="text-2xl font-bold">Minu salvestatud uudised:</p>
-          <div className="flex flex-col gap-4 p-4 w-[95%] h-96 overflow-hidden overflow-y-scroll mb-8 rounded-xl">
+          <div className="flex flex-col gap-4 p-4 w-[95%] h-96 overflow-hidden overflow-y-scroll mb-8 rounded-xl border-4">
             {articles}
           </div>
           <p className="text-2xl font-bold">Minu kommentaarid:</p>
-          <div className="flex flex-col gap-4 p-4 w-[95%] h-80 overflow-hidden overflow-y-scroll rounded-xl">
+          <div className="flex flex-col gap-4 p-4 w-[95%] h-80 overflow-hidden overflow-y-scroll rounded-xl border-4">
             {comments}
           </div>
         </div>
