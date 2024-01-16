@@ -45,6 +45,7 @@ export default function MyProfile({
           <Comment
             comment={value as unknown as NewsFlashComment}
             key={index}
+            articleLink
           />
         )
       })
