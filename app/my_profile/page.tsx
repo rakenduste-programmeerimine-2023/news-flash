@@ -33,6 +33,13 @@ export default function MyProfile({
         .select("article_id, created_at, content, users(id, username)")
         .eq("commenter_uuid", user!.id)
 
+      if (data?.length === 0) {
+        setComments([
+          <p className="text-center italic">Kommentaarid puuduvad.</p>
+        ])
+        return
+      }
+
       const comments = data?.map((value, index) => {
         return (
           <Comment
@@ -57,6 +64,14 @@ export default function MyProfile({
 
     const getSavedArticles = async () => {
       const { data } = await supabase.from("saved_articles").select()
+
+      if (data?.length === 0) {
+        setArticles([
+          <p className="text-center italic">Salvestatud uudised puuduvad.</p>
+        ])
+        return
+      }
+
       const articles = data?.map(value => {
         const articleID = value.article_id
         const articleData = fetchArticleData(articleID)
